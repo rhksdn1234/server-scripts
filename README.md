@@ -17,8 +17,8 @@
 
 **사용 방법**
 
-​```bash
-chmod +x check_server.sh
+​```
+chmod +x check_server.sh &&
 ./check_server.sh
 ​```
 
