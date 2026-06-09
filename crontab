@@ -1,1 +1,0 @@
-0 9 * * * /root/server-scripts/check_server.sh >> /root/server-scripts/check_$(date +\%Y\%m\%d).log 2>&1
