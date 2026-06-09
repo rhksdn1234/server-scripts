@@ -12,8 +12,22 @@ echo "========================================"
 
 echo ""
 echo "[1] 디스크 사용량"
-df -h | grep -vE 'tmpfs|udev'
 
+# 경고 기준값 (퍼센트). 이 값을 넘으면 경고를 표시한다.
+THRESHOLD=80
+
+# df 결과에서 실제 디스크 줄만 골라 한 줄씩 검사
+df -h --output=source,pcent,target | grep -vE 'tmpfs|udev|Filesystem' | while read source usage target
+do
+    # usage 값에서 % 기호를 떼어내 숫자만 추출 (예: "23%" -> "23")
+    usage_num=$(echo "$usage" | tr -d '%')
+
+    if [ "$usage_num" -ge "$THRESHOLD" ]; then
+        echo "  [경고] $target ($source) 사용량 ${usage}  >> 임계치 ${THRESHOLD}% 초과!"
+    else
+        echo "  [정상] $target ($source) 사용량 ${usage}"
+    fi
+done
 echo ""
 echo "[2] 메모리 사용량"
 free -h
